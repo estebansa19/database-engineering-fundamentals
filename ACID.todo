@@ -1,0 +1,35 @@
+ACID:
+
+  qué es una transaction?:
+    - una colección de queries que se trata como una unidad de trabajo individual. 
+
+    e.g: una tranferencia bancaria de una cuenta a otra (
+        SELECT - para saber que tienen la cantidad de dinero necesaria
+        UPDATE - remover dinero de cuenta z
+        UPDATE - agregar dinero a cuenta x
+      )
+
+    - ciclo de vida de una transaction:
+
+      * BEGIN para comenzar la transaction
+      * COMMIT cuando estamos satisfechos con las queries y queremos persistirlas
+      * ROLLBACK para deshacer los cambios
+      * TRANSACTION UNEXPECTED ENDING cuando ocurre un error inesperado. e.g: un crasheo
+
+      Cada motor de DB puede darle una prioridad diferente a cada parte del ciclo de vida de una
+      transaction. e.g: Postgres le da más prioridad a que se le hagan commit a los cambios
+      por lo que este motor está muy bien optimizado para esto.
+
+    - naturaleza de las transactions
+
+      * normalmente son para leer y actualizar información
+      * podemos tener transactions sólo de lectura. e.g: la generación de un reporte, una read only
+        transaction nos permite conservar la consistencia con respecto a concurrencia, nuevos 
+        registros, etc.
+      * la DB siempre que ejecutamos un cambio de igual manera genera una transaction. Cada vez que
+        ejecutamos un INSERT en la DB, se crea una transaction y se ejecuta un COMMIT directamente.
+
+
+
+
+    
