@@ -29,7 +29,136 @@ ACID:
       * la DB siempre que ejecutamos un cambio de igual manera genera una transaction. Cada vez que
         ejecutamos un INSERT en la DB, se crea una transaction y se ejecuta un COMMIT directamente.
 
+  Atomicity:
+    - una transaction debería tratarse como una unidad y no dividirse nunca, si una query falla por
+      algún motivo, todas las anteriores deben hacer rollback.
+    - si la DB crashea por algún motivo y estábamos en medio de una transaction que, por ejemplo,
+      llevaba 100 queries ejecutadas de manera correcta, la transacction debe hacer rollback
+      también.
 
+    e.g: queremos hacer una transaction de una DB bancaria, debitar una cuenta y creditar a otra
+
+    cuenta X tiene 1000
+    cuenta Y tiene 500
+
+    1. comenzamos la transaction
+    2. debitamos a cuenta X
+    3. creditamos a cuenta Y, pero antes de que esto ocurra la DB crashea, dependiendo del tipo de
+      motor de DB que tengamos pueden ocurrir varios casos, uno de ellos es: se realizó el
+      débito a la cuenta X, pero que no se haya hecho el crédito a la cuenta Y. Esto sería un
+      resultado bastante inconsistente de la transaction.
+    4. el motor de DB tiene que hacerse cargo de esta situación, ya que, en este caso, el error no
+      fue causado por nosotros, no podemos manejarlo.
+
+  Isolation:
+    - puede mi transaction que está ocurriendo en este momento ver los cambios hechos por otra
+      transaction? está mi transaction isolated de otras transactions que ocurran de manera
+      concurrente?
+
+    - read phenomena:
+      a) dirty reads: cuando podemos data de una transaction a la que todavía no se le ha hecho
+        commit.
+
+        e.g: tenemos una tabla de ventas, donde cada venta tiene un product_id, un quantity de
+        unidades vendidas y un price del precio del producto.
+
+        si tenemos una transaction para realizar un reporte con respecto a esta tabla,
+        que hará lo siguiente
+
+        1. sacar el id y el price * quanitty de cada venta
+        2. sacar una suma del price de las ventas
+
+        todo parece estar bien, pero, qué pasaría si luego de ejecutar la primera query de esa
+        transaction entra otra transaction de manera paralela? que por ejemplo, agregue una venta
+        al producto con id 1. Los resultados entre la query 1 y la 2 van a ser inconsistentes, lo
+        peor de todo es que a esa query que entró de manera paralela no se le ha hecho commit, así
+        que es posible que a esos queries se les haga rollback.
+
+      b) non-repeatable read: cuando en una transaction leemos un value y luego lo volvemos a leer,
+        no nos referemos a hacer exactamente la misma consulta, si no a cuando en una consulta
+        leemos un value en más de una ocasión. e.g: podemos en un select leer el value x, luego
+        hacer una aggregate function con ese value x, pero para este punto ese value ya cambió. El
+        valor de ese value no se puede repetir en la misma transaction.
+
+        e.g: tenemos una tabla de ventas, donde cada venta tiene un product_id, un quantity de
+        unidades vendidas y un price del precio del producto.
+
+        si tenemos una transaction para realizar un reporte con respecto a esta tabla,
+        que hará lo siguiente
+
+        1. sacar el id y el price * quanitty de cada venta
+        2. sacar una suma del price de las ventas
+
+        qué pasaría si ejecutamos la primer query bien y antes de ejecutar la segunda query,
+        entró otra transaction de manera paralela que modificó un registro de la tabla de ventas?
+        vamos a obtener un resultado inconsistente porque la suma del precio de las ventas puede
+        ser diferente a lo que obtuvimos en la primera query.
+
+      c) phantom reads: cuando, por ejemplo, en el momento en que hacemos una query para leer una
+        tabla, un registro se ingresa en esa tabla, la query no nos lo devuelve pero si hacemos la
+        consulta de nuevo lo devolverá.
+
+        e.g: tenemos una tabla de ventas, donde cada venta tiene un product_id, un quantity de
+        unidades vendidas y un price del precio del producto.
+
+        si tenemos una transaction para realizar un reporte con respecto a esta tabla,
+        que hará lo siguiente
+
+        1. sacar el id y el price * quanitty de cada venta
+        2. sacar una suma del price de las ventas
+
+        qué pasaría si ejecutamos la primer query bien y antes de ejecutar la segunda query, se
+        entró otra transaction de manera paralela que inserta un registro nuevo en la tabla? para
+        la segunda query de esta transaction vamos a leer un registro que no estaba antes, así que
+        vamos a obtener un resultado inconsistente entre ambas consultas.
+
+      d) lost updates: esto ocurre cuando escribimos algo, no le hemos hecho commit pero ya estamos
+        tratando de leerlo. El problema está en que otras transactions pueden modificar esta query
+        al que no le hemos hecho commit y vamos a buscar algo que antes estaba pero ahora no.
+
+        e.g: tenemos una tabla de ventas, donde cada venta tiene un product_id, un quantity de
+        unidades vendidas y un price del precio del producto.
+
+        tenemos 2 transactions que se van a ejecutar de manera paralela y ambas comenzaron al mismo
+        tiempo, la primera actualiza un registro de la tabla de sales (agrega 10 ventas para el
+        producto 1) y posteriormente va a hacer una suma del precio de los productos, antes de esto,
+        la otra transaction actualiza el mismo registro que la primera transaction y hace commit
+        (agrega 5 ventas para el producto 1), por lo que sobrescribió los cambios del UPDATE de la
+        primera transaction, al hacer la suma del precio de la primera transaction vamos a obtener
+        un resultado inconsistente con lo que nos esperabamos porque vamos a hacer la suma con los
+        cambios de la segunda transaction.
+
+    - Isolation levels:
+
+      podemos configurar el nivel de isolation que queremos utilizar en las propias consultas.
+
+      el nivel por defecto para muchas DB es read commited.
+
+      * read uncommited: no isolation, cualquier cambio de afuera es visible para la transaction,
+        así esté commited o no.
+      * read commited: cada query en una transaction solamente puede ver commited changes.
+      * repeatable read: la transaction se va a asegurar que, sí y sólo si la query hace una
+        lectura mantenga esa lectura intacta mientras acaba la transaction. Esto significa que
+        mantendrá los resultados que ya obtuvo de esa lectura, pero si entra un nuevo registro a
+        esa lectura que no estaba antes va a retornarlo también.
+      * snapshot: cada query en una transaction solamente ve cambios que fueron realizados en esa
+        transaction, es como tomar una snapshot toda la DB en este momento. Nos va a garantizar
+        que solucionamos todos los read phenomena pero a un gran costo.
+      * serializable: la más lenta de todas, este nivel de isolation significa abandonar por
+        completo la concurrencia, el motor pasa a ejecutar una query y cuando esta acaba es cuando
+        comienza con la siguiente.
+
+    - Database implementation of Isolation
+      * cada motor de DB puede implementar la Isolation de manera distinta.
+      * Pessimistic - Row level locks (locker una columna de una tabla), table locks (por cada
+        cambio que haga voy a lockear la tabla), page locks (clustering) to avoid lost updates.
+      * Optimistic - No locks, se trackea si hubo algún cambio y si hubo alguno, se cancela la
+        transaction y se ejecuta de nuevo.
+      * Repeatable read "lockea" las columnas pero esto puede ser costoso si tiene que lockear
+        demasiadas columnas. Postgres implementa RR como Snapshot, por esto con RR no tenemos
+        phantom reads.
+      * Serializable normalmente se implementa con Optimistic Concurrency Control, porque si de
+        verdad se serializa toda una DB sería demasiado lento.
 
 
     
