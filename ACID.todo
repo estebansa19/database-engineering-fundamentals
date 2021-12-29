@@ -1,7 +1,7 @@
 ACID:
 
   qué es una transaction?:
-    - una colección de queries que se trata como una unidad de trabajo individual. 
+    - una colección de queries que se trata como una unidad de trabajo individual.
 
     e.g: una tranferencia bancaria de una cuenta a otra (
         SELECT - para saber que tienen la cantidad de dinero necesaria
@@ -24,7 +24,7 @@ ACID:
 
       * normalmente son para leer y actualizar información
       * podemos tener transactions sólo de lectura. e.g: la generación de un reporte, una read only
-        transaction nos permite conservar la consistencia con respecto a concurrencia, nuevos 
+        transaction nos permite conservar la consistencia con respecto a concurrencia, nuevos
         registros, etc.
       * la DB siempre que ejecutamos un cambio de igual manera genera una transaction. Cada vez que
         ejecutamos un INSERT en la DB, se crea una transaction y se ejecuta un COMMIT directamente.
@@ -112,22 +112,6 @@ ACID:
         la segunda query de esta transaction vamos a leer un registro que no estaba antes, así que
         vamos a obtener un resultado inconsistente entre ambas consultas.
 
-      d) lost updates: esto ocurre cuando escribimos algo, no le hemos hecho commit pero ya estamos
-        tratando de leerlo. El problema está en que otras transactions pueden modificar esta query
-        al que no le hemos hecho commit y vamos a buscar algo que antes estaba pero ahora no.
-
-        e.g: tenemos una tabla de ventas, donde cada venta tiene un product_id, un quantity de
-        unidades vendidas y un price del precio del producto.
-
-        tenemos 2 transactions que se van a ejecutar de manera paralela y ambas comenzaron al mismo
-        tiempo, la primera actualiza un registro de la tabla de sales (agrega 10 ventas para el
-        producto 1) y posteriormente va a hacer una suma del precio de los productos, antes de esto,
-        la otra transaction actualiza el mismo registro que la primera transaction y hace commit
-        (agrega 5 ventas para el producto 1), por lo que sobrescribió los cambios del UPDATE de la
-        primera transaction, al hacer la suma del precio de la primera transaction vamos a obtener
-        un resultado inconsistente con lo que nos esperabamos porque vamos a hacer la suma con los
-        cambios de la segunda transaction.
-
     - Isolation levels:
 
       podemos configurar el nivel de isolation que queremos utilizar en las propias consultas.
@@ -166,7 +150,7 @@ ACID:
 
     - Consistency in Data:
       * Es algo que lo define el DBA o la persona que esté desarrollando el modelo de datos.
-      * Integridad referencial (de foreign keys en SQL y de documentos en NoSQL, porque un 
+      * Integridad referencial (de foreign keys en SQL y de documentos en NoSQL, porque un
         documento puede tener a otro, hacer referencia a otro). Integridad de las reglas que
         creamos en el modelo de datos.
       * Atomicity
@@ -180,11 +164,11 @@ ACID:
         automáticamente?
       * Es algo que afecta a un sistema en completo.
       * Se ve muy claro cuando tenemos una DB primary una de replica, porque la replica puede estar
-        desincronizada con la DB primary y podemos tener una lectura de una tabla que no está 
+        desincronizada con la DB primary y podemos tener una lectura de una tabla que no está
         actualizada.
       * Afecta tanto a SQL como a no SQL.
       * Eventual consistency, en algún punto seremos consistentes. Hay que tomar esto con pinzas
-        porque pueden haber situaciones de las cuales no podamos obtener consistenci (por ejemplo, 
+        porque pueden haber situaciones de las cuales no podamos obtener consistenci (por ejemplo,
         problemas de integridad refenrecial, sería complicado obtener consistency de esto).
 
   Durability:
@@ -193,14 +177,14 @@ ACID:
     - Si mi sistema tiene un crash o se me va la luz pero realicé el commit, debería poder ver
       esa transaction persistida en el sistema.
     - Durability Techniques:
-    
-      1. WAL (Write Ahead Log) - son archivos que representan una versión de los cambios 
+
+      1. WAL (Write Ahead Log) - son archivos que representan una versión de los cambios
         realizados.
 
         * Escribir mucha información al disco es costoso (indexes, data, files).
         * Por esto se crearon unas versiones comprimidas de los cambios (WAL).
 
-      2. Asynchronous Snapshot - todos los cambios se van guardando en memoria y luego son 
+      2. Asynchronous Snapshot - todos los cambios se van guardando en memoria y luego son
         persisitidos todos a la vez en la DB.
       3. AOF (Append Only Files) - muy similar al WAL, mantiene tracking de los cambios.
 
@@ -216,3 +200,4 @@ ACID:
     alternativa u otra.
 
     - Las DBs nos dan la opción de tener una strong durabiliy o de tener una eventual durability.
+
