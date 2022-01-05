@@ -1,0 +1,84 @@
+How tables and indexes are stored on disk:
+
+  Concepts:
+
+    - row_id: es una columna que manejan las DB de manera interna aparte de las que generamos
+      nosotros.
+
+    - Page: es un espacio destinado a guardar filas en memoria/ en el disco. Por ende, una page
+      puede contener una o muchas filas.
+
+    - IO: una IO operation (input/output) es una petición de lectura a disco.
+
+      * se intenta minimizar esto lo más posible, mientras menos IO se realice más rápidas serán
+        las consultas.
+      * un IO no puede obtener una sola fila, debe retornar por lo menos una page.
+      * en algunos sistemas operativos los IOs van al cache del sistema operativo y no
+        directamente al disco.
+
+    - Heap: es una estructura de datos que representa toda la información de una tabla.
+
+      * atravesar el heap es muy costoso ya que tenemos que leer mucha información hasta
+        encontrar lo que estamos buscando.
+      * es por esto que son útiles los índices, ya que nos evitan tener que atravesar todo el
+        heap y obtener solamente las pages que necesitamos.
+
+    - Index: es una estructura de datos separada del heap que tiene pointers al heap.
+
+      * realmente son números que apuntal al row id y este a su vez, contiene meta-data que nos
+        ayuda a saber qué page necesitamos obtener.
+      * podemos indexar una columna o más.
+      * nos dicen exactamente qué page del heap buscar en lugar de tener que leer todo el heap.
+      * los índices también tienen un costo de IO porque son almacenados en memoria.
+      * mientras más pequeño el indice, más probable que pueda almacenarse en memoria y más
+        rápida la consulta.
+
+    - Notes:
+
+      * el heap puede ser organizado alrededor de un index, esto es llamado un Clustered Index o
+        un Index Organized Table. Esto significa tener la tabla ordenada a partir de un index.
+      * MySQL InnoDB siempre tiene una primary key y ordenará la tabla a partir de este
+        índice (Clustered Index).
+
+        e.g: si guardamos un UUID va a ser demasiado costoso porque la DB tiene que ordenar este
+          valor random y va a afectar muchas pages. Esto hará las escrituras demasiado lentas.
+      * todos los índices de Postgres apuntan al row_id
+
+Row vs Column oriented databases:
+
+  - Row oriented database:
+
+    * las tablas son almacenadas como rows en el disco. Guarda todos los fields de los registros
+      de manera secuencial.
+    * lectura y esctritura rápida, la implementación para esto es muy sencilla.
+    * una sola operación de IO va a devolver varios rows con todas sus columnas.
+    * cuando hacemos una búsqueda vamos a necesitar más IOs y además, vamos a obtener todos los
+      fields de esa columna.
+    * la compresión/deduplication no es eficiente.
+    * la aggregation no es eficiente.
+    * queries eficientes con multiples columnas.
+
+  - Colum oriented database:
+
+    * las tablas son almacenadas como columnas primero en el disco. Almacena los fields de los
+      registros por columnas y no secuencial.
+    * la escritura es lenta, tenemos que tocar cada una de las columnas que contienen la
+      información y actualizarla.
+    * una consulta a la DB devuelve multiples columnas con todos los rows que hagan match.
+    * menos IOs son requeridos para obtener valores de una columna.
+    * la compresión/deduplication es eficiente.
+    * la agregación es eficiente.
+    * queries ineficientes con multiples columnas.
+
+Primary key vs Secondary key:
+
+  - Primary key: es cuando usamos los clustered index que tiene la DB y manejamos una tabla con
+    que está ordenada de acuerdo a su primary key, esto nos puede traer varios beneficios a la
+    hora de hacer consultas por cómo funcionan los motores de DB. IOT (Index Organized Table)
+
+  - Secondary key: tener la tabla ordenada como una revoltura pero tener otra estructura aparte
+    de la tabla que es dónde van a estar estos indexes. HOT (Heap Organized Table)
+
+    * tiene una desventaja y es que tenemos que hacer un salto de la estructura de los indexes al
+      heap y hacer la búsqueda ahí también.
+    * Postgres maneja todos sus indexes como secondary.
