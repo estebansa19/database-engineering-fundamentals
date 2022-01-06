@@ -15,3 +15,14 @@ Qué es un índice?:
 
     no se pueden aplicar los indexes que tenemos sobre las columnas, por lo que el motor de DB
     haría un full parallel sequential scan.
+
+Explain explained:
+  Este comando es una estimación, si queremos obtener información de data real tenemos que usar
+  ANALYZE.
+
+  - cost: consta de 2 números, el primero es lo que se tarda el motor en obtener la primera page,
+    este número puede crecer en caso de que hagamos muchas operaciones antes de obtener la
+    información (aggregation functions, por ejemplo). El segundo número es la estimación de cuánto
+    cree el motor que va a tardar.
+  - rows: una estimación de cuántas rows va a hacer fetch para esta consulta.
+  - width: la suma de bytes para todas las columns.
