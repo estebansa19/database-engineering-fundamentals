@@ -1,0 +1,17 @@
+Cómo crear una tabla con 1M rows?:
+
+  CREATE TABLE temp (t int);
+  INSERT INTO TEMP (t) SELECT RANDOM() * 100 FROM generate_series(0, 1000000);
+
+Qué es un índice?:
+  Es una estructura de datos que creamos sobre nuestras tablas y que intenta analizar y resumir
+  la tabla para poder crear shortcuts. Se puede hacer una analogía con los labels que tienen
+  algunos libros para indicarnos que estamos en cierto apartado.
+
+  - EXPLAIN ANALYZE para ver cuánto se demora una consulta y qué hace internamente.
+  - cuando buscamos por una expresión y no por un valor, e.g:
+
+    SELECT name, salary FROM employees WHERE name LIKE '%esteban%'
+
+    no se pueden aplicar los indexes que tenemos sobre las columnas, por lo que el motor de DB
+    haría un full parallel sequential scan.
