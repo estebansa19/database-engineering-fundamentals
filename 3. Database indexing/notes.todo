@@ -52,3 +52,16 @@ key vs non-key indexes:
   - composite index: es un indeex que está compuesto de varias columnas y será más eficiente
     para queries que usen estas columnas. Cuando usamos un composite index, Postgres solamente
     puede acceder a la columna que está de lado izquierdo.
+
+seq scan vs index scan vs bitmap index scan:
+  - index scan: el motor decide usar esta estrategia cuando estamos consultando por un conjunto
+    no tan grande de información pero igualmente tenemos que ir al heap a traer más data.
+  - seq scan o table scan: es analizar toda la tabla por completo de manera secuencia, Postgres
+    maneja varios workers para hacer estas queries más rápidas. El motor suele usarlas cuando
+    tenemos que obtener mucha info.
+  - bitmap index scan: el motor decide usar esta estrategia cuando no vamos a traer una cantidad
+    tan grande de información pero sí nos será de utilidad usar el index en la consulta. Lo que
+    hace es un bitmap de las pages y va mapeando cuáles son las que vamos a obtener y luego los
+    obtiene todos de un sólo hit al heap. Luego a esto tiene que hacer un recheck porque en las
+    pages pueden haber rows que no satisfagan lo que necesitamos. e.g: en caso de un filtro, en las
+    pages podría haber rows que no cumplen nuestra condición.
