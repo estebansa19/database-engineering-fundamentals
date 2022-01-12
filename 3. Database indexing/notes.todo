@@ -26,3 +26,29 @@ Explain explained:
     cree el motor que va a tardar.
   - rows: una estimación de cuántas rows va a hacer fetch para esta consulta.
   - width: la suma de bytes para todas las columns.
+
+Index Scan vs Index Only Scan:
+
+  - Index Scan: cuando tenemos un index en una tabla pero por la consulta que estamos haciendo
+    tenemos que volver a consultar a la tabla por más data que no tenía el index.
+  - Index Only Scan: es cuando no tenemos que volver a la tabla a hacer fetch de más data, son
+    las consultas ideales.
+  - Podemos almacenar más data en un index (no va a ser usado para optimización o para búsquedas
+    pero sí será fetched) de la siguiente manera
+
+    CREATE INDEX id_idx ON stude  nts(id) INCLUDE (name);
+
+    Esto se llama non-key indexes.
+
+  - Tenemos que tener cuidado de no crear indexes demasiado pesados, estos podrían hacer las
+    queries más pesadas.
+
+key vs non-key indexes:
+
+  - non-key indexes: son indexes que nos permiten incluir información en el index que no será usada
+    para búsquedas pero sí estará incluida, por lo que podremos hacer un index only scan.
+  - vacuum (verbose) table_name; esto nos dirá si tenemos algún error en la tabla o debemos remover
+    algunas filas o columnas.
+  - composite index: es un indeex que está compuesto de varias columnas y será más eficiente
+    para queries que usen estas columnas. Cuando usamos un composite index, Postgres solamente
+    puede acceder a la columna que está de lado izquierdo.
