@@ -75,3 +75,9 @@ concurrently creation of an index:
   CREATE INDEX CONCURRENTLY idx_name ON table(field);
 
   este index no hará un lock en las transactions; aunque, va a consumir más recursos.
+
+bloom filters:
+  es una estrategia que podemos utilizar para guardar ciertos bits de información en memoria y de
+  acuerdo a estos tener una aproximación de si tenemos que realizar una consulta o con la data que
+  tenemos en memoria ya es suficiente. Un caso de uso para esto sería un endpoint que valide la
+  existencia de nombres de usuario.
