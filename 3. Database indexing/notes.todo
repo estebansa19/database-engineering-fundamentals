@@ -65,3 +65,13 @@ seq scan vs index scan vs bitmap index scan:
     obtiene todos de un sólo hit al heap. Luego a esto tiene que hacer un recheck porque en las
     pages pueden haber rows que no satisfagan lo que necesitamos. e.g: en caso de un filtro, en las
     pages podría haber rows que no cumplen nuestra condición.
+
+concurrently creation of an index:
+  cuando creamos un index puede tardar, especialmente en una tabla grande. Esto creará un lock en
+  las transactions de escritura, lo cual puede perjudicarnos bastante.
+
+  Postgres nos da una solución para esto
+
+  CREATE INDEX CONCURRENTLY idx_name ON table(field);
+
+  este index no hará un lock en las transactions; aunque, va a consumir más recursos.
