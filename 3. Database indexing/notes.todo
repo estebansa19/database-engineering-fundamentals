@@ -81,3 +81,14 @@ bloom filters:
   acuerdo a estos tener una aproximación de si tenemos que realizar una consulta o con la data que
   tenemos en memoria ya es suficiente. Un caso de uso para esto sería un endpoint que valide la
   existencia de nombres de usuario.
+
+working with a billion row table:
+
+  - brute way: usar el multi-threading y multi-processing para partir la tabla en varios segmentos
+    más pequeños y analizarlos de manera paralela.
+  - limitar la cantidad del set:
+
+    * partir la tabla en sets más pequeños usando indexes.
+    * usar partitioning.
+    * usar sharding.
+  - no tener una tabla tan grande, buscar otras alternativas para evitar tener tantos registros.
