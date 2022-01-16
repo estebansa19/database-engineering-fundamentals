@@ -114,3 +114,11 @@ b-trees limitations:
     si quisiéramos obtener los registros que tienen a entre 1 y 5, tendríamos que recorrer el
     árbol 5 veces.
 
+b+trees:
+
+  - son iguales que los b-trees pero estos solamente almacenan los keys en los internal nodes, los
+    values son almacenados en los leaf nodes.
+  - los internal nodes son más pequeños ya que solamente guardan los keys y pueden almacenar más
+    elements.
+  - los leaf nodes están linkeados con los elementos que los preceden y con los que los proceden,
+    esto hace que las range queries sean más rápidas.
