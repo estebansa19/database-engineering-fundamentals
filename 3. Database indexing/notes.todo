@@ -92,3 +92,18 @@ working with a billion row table:
     * usar partitioning.
     * usar sharding.
   - no tener una tabla tan grande, buscar otras alternativas para evitar tener tantos registros.
+
+b-trees:
+
+  - Balanced Data structure for fast traversal.
+  - root node: el nodo principal.
+  - internal nodes: son los nodos que están en la parte intermedia del b-trees.
+  - leaf nodes: son los últimos nodos, estos no tienen hijos.
+  - cada nodo puede estar conformado por la cantidad de sus hijos - 1 como elements.
+  - los elements se componen por una key y un value, siendo los keys los argumentos por los que
+    se van a buscar y los values un valor que nos indica cuál es el row_id/tuple_id donde se
+    encuentre el row. Esto es conocido como data pointer.
+  - el index contiene info de en qué page se encuentra el row_id/tuple_id para evitar un full table
+    scan.
+
+
