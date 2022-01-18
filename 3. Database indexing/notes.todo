@@ -43,7 +43,7 @@ Index Scan vs Index Only Scan:
   - Tenemos que tener cuidado de no crear indexes demasiado pesados, estos podrían hacer las
     queries más pesadas.
 
-key vs non-key indexes:
+Key vs non-key indexes:
 
   - non-key indexes: son indexes que nos permiten incluir información en el index que no será usada
     para búsquedas pero sí estará incluida, por lo que podremos hacer un index only scan.
@@ -53,7 +53,7 @@ key vs non-key indexes:
     para queries que usen estas columnas. Cuando usamos un composite index, Postgres solamente
     puede acceder a la columna que está de lado izquierdo.
 
-seq scan vs index scan vs bitmap index scan:
+Seq scan vs index scan vs bitmap index scan:
   - index scan: el motor decide usar esta estrategia cuando estamos consultando por un conjunto
     no tan grande de información pero igualmente tenemos que ir al heap a traer más data.
   - seq scan o table scan: es analizar toda la tabla por completo de manera secuencia, Postgres
@@ -66,7 +66,7 @@ seq scan vs index scan vs bitmap index scan:
     pages pueden haber rows que no satisfagan lo que necesitamos. e.g: en caso de un filtro, en las
     pages podría haber rows que no cumplen nuestra condición.
 
-concurrently creation of an index:
+Concurrently creation of an index:
   cuando creamos un index puede tardar, especialmente en una tabla grande. Esto creará un lock en
   las transactions de escritura, lo cual puede perjudicarnos bastante.
 
@@ -82,7 +82,7 @@ bloom filters:
   tenemos en memoria ya es suficiente. Un caso de uso para esto sería un endpoint que valide la
   existencia de nombres de usuario.
 
-working with a billion row table:
+Working with a billion row table:
 
   - brute way: usar el multi-threading y multi-processing para partir la tabla en varios segmentos
     más pequeños y analizarlos de manera paralela.
@@ -93,7 +93,7 @@ working with a billion row table:
     * usar sharding.
   - no tener una tabla tan grande, buscar otras alternativas para evitar tener tantos registros.
 
-b-trees:
+B-trees:
 
   - Balanced Data structure for fast traversal.
   - root node: el nodo principal.
@@ -106,15 +106,15 @@ b-trees:
   - el index contiene info de en qué page se encuentra el row_id/tuple_id para evitar un full table
     scan.
 
-b-trees limitations:
+B-trees limitations:
 
   - los internal nodes requieren más espacio en memoria a la hora de recorrer los nodos.
-  - las queries que tienen cierto carácter aleatorio son más lenta por el random access. e.g:
+  - las queries que tienen cierto carácter aleatorio son más lentos por el random access. e.g:
 
     si quisiéramos obtener los registros que tienen a entre 1 y 5, tendríamos que recorrer el
     árbol 5 veces.
 
-b+trees:
+B+trees:
 
   - son iguales que los b-trees pero estos solamente almacenan los keys en los internal nodes, los
     values son almacenados en los leaf nodes.
@@ -122,3 +122,18 @@ b+trees:
     elements.
   - los leaf nodes están linkeados con los elementos que los preceden y con los que los proceden,
     esto hace que las range queries sean más rápidas.
+
+  Considerations:
+
+    - el costo del leaf pointer (que es realmente barato para un DBMS).
+    - podemos almacenar los internal nodes en memoria de una manera más sencilla porque son más
+      livianos.
+
+Storage cost of b+trees in MySQL vs Postgres:
+
+  - los secondary index de los b+tree pueden apuntar directamente a una tupla (Postgres) o a la
+    primary key.
+  - si la primary key es pesada, puede causar una inflación en todos los secondary index
+    (MySQL/InnoDB).
+  - los leaf nodes en MySQL (InnoDB) contienen la row completa ya que es una Index Ordered Table /
+    clustered index.
