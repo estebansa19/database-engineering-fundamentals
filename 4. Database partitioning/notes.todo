@@ -18,3 +18,13 @@ Partitioning types:
   - by ranges: dates, ids (e.g. created_at).
   - by list: discrete values (e.g country codes: CO, MX, USA).
   - by hash: hash functions.
+
+Partitioning vs Sharding:
+
+  - Horizontal Partitioning separa una gran tabla en tablas más pequeñas, en la misma DB.
+    Además, la DB se encarga de todo el management de la tabla a la hora de consultarla.
+  - Sharding separa una gran tabla en tablas más pequeñas pero en distintos servidores de DB. El
+    cliente tiene que hacer el management de a qué shard va a conectarse. e.g. Si quisiéramos
+    tener un database server de acuerdo a la locación del user.
+  - con Sharding nuestra query se mantiene idéntica pero tenemos que manejar el cambio de
+    servidores.
