@@ -28,3 +28,17 @@ Partitioning vs Sharding:
     tener un database server de acuerdo a la locación del user.
   - con Sharding nuestra query se mantiene idéntica pero tenemos que manejar el cambio de
     servidores.
+
+Pros of partitioning:
+
+  - mejora el performance de una consulta cuando accedemos a sólo una o unas pocas partitions.
+  - podemos hacer attach de una partition muy fácilmente.
+  - podemos guardar data vieja que no es de tanta utilidad en un almacenamiento más barato.
+
+Cons of partitioning:
+
+  - los updates que mueven un row de una partition a otra son más lentos e incluso pueden llegar a
+    fallar a veces.
+  - las queries ineficientes pueden realizar un scan de todas las partitions, esto resultaría en un
+    peor performance que si tuviéramos una sola tabla.
+  - los cambios y actualizaciones en el schema pueden ser tediosos.
