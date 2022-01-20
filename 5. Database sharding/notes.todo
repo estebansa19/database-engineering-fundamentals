@@ -1,5 +1,16 @@
 Qué es?:
 
-  Segmentar la DB en particiones que están en multiples instancias de DB. Esto se hace de acuerdo
+  - segmentar la DB en particiones que están en multiples instancias de DB. Esto se hace de acuerdo
   a cierto criterio, por el cual van a estar segmentadas las DB. e.g. una DB en la que los ids de
   rows van desde 1-200k, otra DB en que van desde 200k-400k, etc.
+
+Consistent Hashing:
+
+  - es una técnica que se usa para saber, de manera consistente, a qué instancia de la DB debemos
+    conectarnos cuando nuestra shard key no es algo tan intuitivo como un id, sino, por ejemplo un
+    string.
+
+Horizontal Partitioning vs Sharding:
+
+  - HP divide una tabla muy grande en tablas más pequeñas en la misma DB.
+  - Sharding divide una tabla muy grande en diferentes instancias de DB.
