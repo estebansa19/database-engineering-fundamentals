@@ -1,0 +1,5 @@
+Qué es?:
+
+  Segmentar la DB en particiones que están en multiples instancias de DB. Esto se hace de acuerdo
+  a cierto criterio, por el cual van a estar segmentadas las DB. e.g. una DB en la que los ids de
+  rows van desde 1-200k, otra DB en que van desde 200k-400k, etc.
