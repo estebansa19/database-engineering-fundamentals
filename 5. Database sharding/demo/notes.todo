@@ -1,0 +1,7 @@
+# Crear image de Docker
+docker build -t pgshard 5.\ Database\ sharding/demo
+
+# Crear containers de Docker
+docker run --name pgshard1 -p 5433:5432 -d -e POSTGRES_PASSWORD=postgres pgshard
+docker run --name pgshard2 -p 5434:5432 -d -e POSTGRES_PASSWORD=postgres pgshard
+docker run --name pgshard3 -p 5435:5432 -d -e POSTGRES_PASSWORD=postgres pgshard
