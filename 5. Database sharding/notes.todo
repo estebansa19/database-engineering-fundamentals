@@ -21,4 +21,14 @@ Pros of Sharding:
   - Security: los usuarios pueden acceder sólo a algunos shards.
   - Es óptimo para el indexing porque los indexes van a ser más pequeños.
 
+Cons of Sharding:
+
+  - Le añade complejidad al cliente porque tiene que ser consciente del Sharding y a qué shard debe
+    hacer la consulta.
+  - Da problemas cuando son transacciones que deben ser entre varias DB.
+  - Los rollbacks son más complicados al estar en diferentes instancias de DB.
+  - Los cambios en el schema son complicados porque deben aplicarse en todos los shards.
+  - JOINS entre DB?
+  - Tenemos que saber cierto atributo de la consulta por el cual se va a realizar el consistent
+    hashing.
 
