@@ -14,3 +14,11 @@ Horizontal Partitioning vs Sharding:
 
   - HP divide una tabla muy grande en tablas más pequeñas en la misma DB.
   - Sharding divide una tabla muy grande en diferentes instancias de DB.
+
+Pros of Sharding:
+
+  - Scalability: data & memory.
+  - Security: los usuarios pueden acceder sólo a algunos shards.
+  - Es óptimo para el indexing porque los indexes van a ser más pequeños.
+
+
