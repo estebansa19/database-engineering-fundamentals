@@ -1,0 +1,10 @@
+Exclusive Lock vs Shared Lock:
+
+  - Exclusive Lock: es cuando queremos hacer un lock en una col, row, etc, así yo soy la única
+    persona transaction que puede realizar una modificación.
+
+  - Shared Lock: es cuando queremos hacer un lock en el cual un value, col, no va a cambiar
+    mientras yo esté leyendo la información.
+
+  - Son herramientas muy útiles cuando buscamos obtener consistencia en nuestras transactions de
+    manera concurrente.
