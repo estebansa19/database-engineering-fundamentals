@@ -35,3 +35,11 @@ SQL Pagination with Offset is very slow:
     SELECT field1 FROM table1 WHERE field1 < 11 LIMIT 10;
 
     De la segunda manera la DB solamente va a cargar los registros que necesita en realidad.
+
+Stateless vs Pool DB connections:
+
+  - Hacer una connection a una DB de manera stateless es más costoso ya que tiene que abrir y
+    cerrar esta connection en cada request.
+
+  - Tener una pool de connections es un mucho mejor approach, así tenemos multiples conexiones y
+    ya la propial pool se encargará de tomar una de estas para realizar nuestra transaction.
