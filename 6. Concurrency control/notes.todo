@@ -3,8 +3,35 @@ Exclusive Lock vs Shared Lock:
   - Exclusive Lock: es cuando queremos hacer un lock en una col, row, etc, así yo soy la única
     persona transaction que puede realizar una modificación.
 
+    e.g.
+
+    SELECT * FROM seats WHERE id = 14 for update;
+
   - Shared Lock: es cuando queremos hacer un lock en el cual un value, col, no va a cambiar
     mientras yo esté leyendo la información.
 
   - Son herramientas muy útiles cuando buscamos obtener consistencia en nuestras transactions de
     manera concurrente.
+
+Deadlocks:
+
+  - Es cuando tenemos un lock en el sistema porque tenemos n procesos esperando a que uno de los
+    procesos despeje recursos y el lock. e.g. Puede ocurrir cuando tenemos 2 transactions que están
+    tratando de insertar rows que generan conflictos.
+
+SQL Pagination with Offset is very slow:
+
+  - Mientras más tenemos que bajar en la cantidad de registros, más costoso será para la DB, todas
+    las rows que hacen parte del offset son cargadas igualmente.
+  - Se puede dar el caso de que leemos registros duplicados si se crean más rows.
+  - Cómo lo podemos solucionar? Usando where + index en lugar del offset. e.g.
+
+    - offset:
+
+    SELECT field1 FROM table1 ORDER BY field1 DESC OFFSET 0 LIMIT 10;
+
+    - where + index
+
+    SELECT field1 FROM table1 WHERE field1 < 11 LIMIT 10;
+
+    De la segunda manera la DB solamente va a cargar los registros que necesita en realidad.
