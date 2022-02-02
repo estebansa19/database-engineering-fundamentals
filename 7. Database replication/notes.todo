@@ -1,0 +1,11 @@
+Qué es?:
+
+  - Es el proceso de copiar información de una (o unas) instancia central de DB a una o más DB.
+    Buscando que varias instancias compartan la información y de esta manera obtener un escalado
+    horizontal al nivel de instancias.
+
+Master/Backup replication:
+
+  - Un nodo maestro que acepta todas las transactions de writes/ddls (create table, alter table,
+    etc)
+  - Los nodos de backup reciben los writes de ese nodo master y serán usados para lectura.
