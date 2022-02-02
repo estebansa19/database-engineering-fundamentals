@@ -26,3 +26,14 @@ Synchronous vs Asynchronous replication:
 
   - Asynchronous replication: un write al nodo maestro será considerado como success y la DB se
     encargará en background de enviar las escrituras a los backup nodes.
+
+Pros & cons of replication:
+
+  Pros:
+    - Horizontal scaling.
+    - Region based queries.
+
+  Cons:
+    - Eventual consistency.
+    - Slow writes (si es synchronous).
+    - Complejo de implementar (multi-master).
