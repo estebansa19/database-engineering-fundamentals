@@ -16,3 +16,13 @@ Multi-Master replication:
   - Tenemos varios nodos maestros que reciben los writes/ddls. Debido a esto tenderemos que
     resolver los conflictos de integridad que resulten entre estos nodos maestros.
   - Uno o varios nodos de backup que reciben las escrituras del master.
+
+Synchronous vs Asynchronous replication:
+
+  - Synchronous replication: un write al nodo maestro va a estar bloqueado hasta que se vea
+    reflejado en las replicas también. Algunas DB nos dan la opción de configurar este block,
+    esperando a que se replique la data en el primer backup node, en dos o que se replique en
+    cualquiera.
+
+  - Asynchronous replication: un write al nodo maestro será considerado como success y la DB se
+    encargará en background de enviar las escrituras a los backup nodes.
