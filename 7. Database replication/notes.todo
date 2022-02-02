@@ -9,3 +9,10 @@ Master/Backup replication:
   - Un nodo maestro que acepta todas las transactions de writes/ddls (create table, alter table,
     etc)
   - Los nodos de backup reciben los writes de ese nodo master y serán usados para lectura.
+
+Multi-Master replication:
+
+  - Es una manera de escalar los writes de una DB (un poco compleja).
+  - Tenemos varios nodos maestros que reciben los writes/ddls. Debido a esto tenderemos que
+    resolver los conflictos de integridad que resulten entre estos nodos maestros.
+  - Uno o varios nodos de backup que reciben las escrituras del master.
