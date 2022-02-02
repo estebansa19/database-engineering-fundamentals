@@ -1,0 +1,2 @@
+docker run --name pmaster -p 5433:5432 -v /Users/esteban/Documents/study/database-engineering-fundamentals/7.\ Database\ replication/demo/rep/master_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres -d postgres
+docker run --name pstandby -p 5434:5432 -v /Users/esteban/Documents/study/database-engineering-fundamentals/7.\ Database\ replication/demo/rep/standby_data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres -d postgres
