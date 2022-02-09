@@ -1,0 +1,15 @@
+Qué son?:
+
+  - Son librerías que usan los software de DB para hacer guardado a muy bajo nivel en el disco
+    duro (create, read, update, delete). Esto podría ser algo tan simple como una key-value
+    store (como RocksDB) o tan complejo para implementar todas las ACID transactions.
+
+  - DBMS usan el database engine y construyen features sobre este engine (replication, isolation,
+    procedimientos almacenados, etc.)
+
+  - Si queremos escribir una nueva DB podemos usar uno de los engine existentes y construir
+    nuestros features sobre este engine.
+
+  - Algunos DBMS nos dan la flexibilidad de hacer switch de engine (MySQL y MariaDB), otros vienen
+    con un engine ya definido que no se puede cambiar (Postgres).
+
