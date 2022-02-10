@@ -13,3 +13,13 @@ Qué son?:
   - Algunos DBMS nos dan la flexibilidad de hacer switch de engine (MySQL y MariaDB), otros vienen
     con un engine ya definido que no se puede cambiar (Postgres).
 
+MyISAM (Index Sequential Access Method):
+
+  - Los indexes que creamos apuntan directamente al row.
+  - No tiene soporte transactional (ACID).
+  - Open source y le pertenece a Oracle.
+  - Los inserts son rápidos, los updates y deletes nos pueden traer problemas (fragments).
+  - Los crashes de la DB corrompen tablas.
+  - Table level locking (no row level locking).
+  - MySQL, MariaD y Percona soportan MyISAM.
+
