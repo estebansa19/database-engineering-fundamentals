@@ -23,3 +23,12 @@ MyISAM (Index Sequential Access Method):
   - Table level locking (no row level locking).
   - MySQL, MariaD y Percona soportan MyISAM.
 
+InnoDB:
+
+  - B+tree - los indexes apuntan a la primary key en lugar de a la row directamente (el engine
+    genera una primary key en caso de que no la creemos nosotros).
+  - Replaces MyISAM.
+  - El engine por defecto para MySQL y MariaDB.
+  - Soporta ACID.
+  - Row level locking.
+  - Le pertenece a Oracle.
