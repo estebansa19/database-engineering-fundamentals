@@ -32,3 +32,9 @@ InnoDB:
   - Soporta ACID.
   - Row level locking.
   - Le pertenece a Oracle.
+
+XtraDB:
+
+  - Es un fork de InnoDB.
+  - Fue el engine por defecto de MariaDB pero luego se cambió en la versión 10.2 a InnoDB de nuevo.
+  - No se pudo mantener al día con los features de InnoDB.
