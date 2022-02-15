@@ -61,3 +61,16 @@ BerkeleyDB:
   - key-value embedded DB.
   - ACID, transactions, replication, etc.
   - Estuvo en el core del Bitcoin.
+
+LevelDB:
+
+  - Escrito por devs de Google en 2011.
+  - Log Structured Merge Tree (LSM, no B-trees por performance, querían una DB rápida en inserts).
+  - No transactions.
+  - Tiene este nombre porque internamente el flujo de información se va guardando en memoria:
+
+    1. Memtable (memory).
+    2. Level 0 (young level).
+    3. Level 1-6.
+
+  - Usado en el core de Blockchain, AutoCad, Minecraft, etc.
