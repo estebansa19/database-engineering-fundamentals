@@ -48,3 +48,16 @@ SQLite:
   - Concurrent read and writes.
   - Web SQL usa SQLit.
   - Es incluido en muchos SO por default.
+
+Aria:
+
+  - Muy parecido a MyISAM.
+  - A diferencia de MyISAM, es seguro contra crashes.
+  - No le pertenece a Oracle.
+
+BerkeleyDB:
+
+  - Desarrollada por Sleepycat en 1994 y perteneciente a Oracle.
+  - key-value embedded DB.
+  - ACID, transactions, replication, etc.
+  - Estuvo en el core del Bitcoin.
