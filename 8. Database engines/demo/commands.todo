@@ -1,0 +1,9 @@
+# Docker setup
+docker run --name ms -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password mysql
+docker exec -it ms bash
+
+# DB setup
+CREATE DATABASE test;
+CREATE TABLE employees_myisam (id int primary key auto_increment, name text) engine = myisam;
+SHOW ENGINES;
+
