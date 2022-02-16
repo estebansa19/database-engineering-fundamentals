@@ -74,3 +74,11 @@ LevelDB:
     3. Level 1-6.
 
   - Usado en el core de Blockchain, AutoCad, Minecraft, etc.
+
+RocksDB:
+
+  - Facebook hizo fork de LevelDB en 2012 y se convirtió en RocksDB.
+  - Transactional (Fast inserts and ACID kekw).
+  - High performance (Fast reads and inserts), multi-threaded compaction.
+  - MyRocks for MySQL, MariaDB & Percona.
+  - MongoRocks for MongoDB.
