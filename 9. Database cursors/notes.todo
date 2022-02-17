@@ -1,0 +1,25 @@
+Qué es?:
+
+  - Es una técnica que nos permite trabajar con grandes sets de información obteniendo batches de
+    data de manera gradual.
+
+Pros:
+
+  - Nos permite ahorrar memoria.
+  - Nos permite hacer streaming de data.
+  - Es fácilmente cancelable.
+
+Const:
+
+  - Long transactions (algunas operaciones pueden verse afectadas por esto, e.g: DDL, writes).
+
+example:
+  # Definimos el cursor y la consulta para la que será usado.
+  BEGIN;
+  DECLARE c CURSOR FOR SELECT id FROM grades WHERE g BETWEEN 90 AND 100;
+
+  # Vamos obteniendo uno a uno los records.
+  FETCH c;
+
+  # Fetch last entry
+  FETCH LAST c;
