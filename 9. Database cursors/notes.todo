@@ -23,3 +23,9 @@ example:
 
   # Fetch last entry
   FETCH LAST c;
+
+Difference between a server side and a client side cursor:
+
+  - Client side cursor: obtener la información de tacada en su totalidad.
+  - Server side cursor: es cuando creamos un cursor a nivel de la DB y vamos obteniendo la data de
+    manera gradual.
