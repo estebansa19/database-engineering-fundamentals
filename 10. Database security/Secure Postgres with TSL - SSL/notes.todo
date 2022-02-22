@@ -1,0 +1,20 @@
+# Setup a Postgres container
+docker run --name pg -p 5433:5432 -d -e POSTGRES_PASSWORD=postgres postgres
+
+# Setup pgAdmin
+docker run -e PGADMIN_DEFAULT_EMAIL="esteban@mail.com" -e PGADMIN_DEFAULT_PASSWORD="password" -p 5555:80 --name pgadmin dpage/pgadmin4
+
+# Entrar al container de Docker y modificar postgresql.conf
+
+...
+ssl = on
+ssl_cert_file = 'cert.pem'
+ssl_key_file = 'private.pem'
+...
+
+# Generar el certificado
+openssl req -x509 -newkey rsa:4096 -nodes -keyout private.pem -out cert.pem
+chmod 600 private.pem
+chown postgres private.pem
+
+# Con esto ya podemos hacer una conexión al server habilitando SSL
