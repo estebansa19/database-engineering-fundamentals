@@ -1,0 +1,13 @@
+- Debemos tener segmentados los permisos de DDL y de DML de una DB, esto es debido a que teniendo
+  segmentados estos permisos podemos solventar los riesgos de que nos hagan SQL injection con
+  respecto al schema de nuestra DB. Tendremos un usuario que tendrá acceso a DML o simplemente a
+  reads y otro que tendrá los permisos de DDL, esto nos ayudará a evitar muchas fallas de
+  seguridad.
+
+  Podemos incluso crear un pool para cada uno de los roles que tendrán los usuarios.
+
+- No tener unbounded queries, consultas que no tengan limite de información la cual nos van a
+  traer, por ejemplo, un `SELECT * FROM example;` podría ser una consulta que nos retorne millones
+  de registros y esto afectará al motor de DB y a toda la conexión en sí.
+
+
