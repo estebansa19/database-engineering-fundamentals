@@ -1,0 +1,25 @@
+What is encryption? (symmetric encryption):
+
+  - Es el proceso de tomar un archivo, documento, texto, etc, y usar una key tanto para
+  encriptarla (que va a dejar la data ilegible) como también para desencriptarla, que nos va a
+  dejar la información legible de nuevo.
+
+Why we can't always encrypt?:
+
+  - Las DB queries sólo pueden ser ejecutadas en texto plano.
+
+  - Análisis de información, indexing, tuning, todos estos deben realizarse sobre data
+    no-encriptada.
+
+  - Las apps deben leer la información para poder procesarla. Podemos confiar en estas apps?
+
+  - Puede generar problemas en la infraestructura de nuestro proyecto (load balanceres, proxies).
+
+Homomorphic encryption:
+
+  - Es la habilidad de poder realizar operaciones aritméticas sobre información encriptada sin
+    necesidad de desencriptarla.
+
+  - No tendremos problemas con la infraestructura (load balancers, reverse proxies).
+
+  - Las DBs pueden optimizar e indexar nuestra data sin necesidar de desencriptarla.
