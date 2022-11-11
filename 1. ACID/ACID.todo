@@ -56,8 +56,8 @@ ACID:
       concurrente?
 
     - read phenomena:
-      a) dirty reads: cuando podemos data de una transaction a la que todavía no se le ha hecho
-        commit.
+      a) dirty reads: cuando podemos leer data de una transaction a la que todavía no se le ha
+        hecho commit.
 
         e.g: tenemos una tabla de ventas, donde cada venta tiene un product_id, un quantity de
         unidades vendidas y un price del precio del producto.
@@ -69,7 +69,7 @@ ACID:
         2. sacar una suma del price de las ventas
 
         todo parece estar bien, pero, qué pasaría si luego de ejecutar la primera query de esa
-        transaction entra otra transaction de manera paralela? que por ejemplo, agregue una venta
+        transaction entra otra transaction de manera paralela? que, por ejemplo, agregue una venta
         al producto con id 1. Los resultados entre la query 1 y la 2 van a ser inconsistentes, lo
         peor de todo es que a esa query que entró de manera paralela no se le ha hecho commit, así
         que es posible que a esos queries se les haga rollback.
@@ -136,7 +136,7 @@ ACID:
 
     - Database implementation of Isolation
       * cada motor de DB puede implementar la Isolation de manera distinta.
-      * Pessimistic - Row level locks (locker una columna de una tabla), table locks (por cada
+      * Pessimistic - Row level locks (lock una columna de una tabla), table locks (por cada
         cambio que haga voy a lockear la tabla), page locks (clustering) to avoid lost updates.
       * Optimistic - No locks, se trackea si hubo algún cambio y si hubo alguno, se cancela la
         transaction y se ejecuta de nuevo.
@@ -170,8 +170,8 @@ ACID:
         actualizada.
       * Afecta tanto a SQL como a no SQL.
       * Eventual consistency, en algún punto seremos consistentes. Hay que tomar esto con pinzas
-        porque pueden haber situaciones de las cuales no podamos obtener consistenci (por ejemplo,
-        problemas de integridad refenrecial, sería complicado obtener consistency de esto).
+        porque pueden haber situaciones de las cuales no podamos obtener consistency (por ejemplo,
+        problemas de integridad referencial, sería complicado obtener consistency de esto).
 
   Durability:
     Es el proceso de persistir la data en un sistema no volátil.
