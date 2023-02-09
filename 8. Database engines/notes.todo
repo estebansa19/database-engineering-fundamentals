@@ -46,7 +46,7 @@ SQLite:
   - Syntax muy parecida a la de Postgres.
   - Full ACID & table locking.
   - Concurrent read and writes.
-  - Web SQL usa SQLit.
+  - Web SQL usa SQLite.
   - Es incluido en muchos SO por default.
 
 Aria:

@@ -25,7 +25,7 @@ async function connectInnoDB() {
 
     await con.commit();
     await con.close();
-  } catch(ex){
+  } catch(ex) {
     console.error(ex)
   }
 }

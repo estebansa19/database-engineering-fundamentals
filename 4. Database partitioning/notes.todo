@@ -9,7 +9,7 @@ Vertical vs horizontal partitioning:
 
   - horizontal: cuando se hace la partición de acuerdo a rangos. e.g: registros de ids 1-1000 en
     una tabla, registros de ids 1001-2000 en otra.
-  - vertical: hacer la partición de arriba hacia abajo, o sea, particionando a partid de columnas.
+  - vertical: hacer la partición de arriba hacia abajo, o sea, particionando a partir de columnas.
     e.g: si tenemos una columna demasiado pesada y que no usamos siempre, hacemos una vertical
     partition y esta información sólo será fetched si se consulta.
 
