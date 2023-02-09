@@ -36,7 +36,7 @@ Index Scan vs Index Only Scan:
   - Podemos almacenar más data en un index (no va a ser usado para optimización o para búsquedas
     pero sí será fetched) de la siguiente manera
 
-    CREATE INDEX id_idx ON stude  nts(id) INCLUDE (name);
+    CREATE INDEX id_idx ON stude nts(id) INCLUDE (name);
 
     Esto se llama non-key indexes.
 
