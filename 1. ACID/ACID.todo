@@ -65,7 +65,7 @@ ACID:
         si tenemos una transaction para realizar un reporte con respecto a esta tabla,
         que hará lo siguiente
 
-        1. sacar el id y el price * quanitty de cada venta
+        1. sacar el id y el price * quantity de cada venta
         2. sacar una suma del price de las ventas
 
         todo parece estar bien, pero, qué pasaría si luego de ejecutar la primera query de esa
@@ -89,10 +89,10 @@ ACID:
         1. sacar el id y el price * quanitty de cada venta
         2. sacar una suma del price de las ventas
 
-        qué pasaría si ejecutamos la primer query bien y antes de ejecutar la segunda query,
-        entró otra transaction de manera paralela que modificó un registro de la tabla de ventas?
-        vamos a obtener un resultado inconsistente porque la suma del precio de las ventas puede
-        ser diferente a lo que obtuvimos en la primera query.
+        qué pasaría si la primer query se ejecuta de manera exitosa y antes de ejecutar la segunda
+        query, entró otra transaction de manera paralela que modificó un registro de la tabla de
+        ventas? vamos a obtener un resultado inconsistente porque la suma del precio de las ventas
+        puede ser diferente a lo que obtuvimos en la primera query.
 
       c) phantom reads: cuando, por ejemplo, en el momento en que hacemos una query para leer una
         tabla, un registro se ingresa en esa tabla, la query no nos lo devuelve pero si hacemos la
@@ -108,7 +108,7 @@ ACID:
         2. sacar una suma del price de las ventas
 
         qué pasaría si ejecutamos la primer query bien y antes de ejecutar la segunda query, se
-        entró otra transaction de manera paralela que inserta un registro nuevo en la tabla? para
+        insertó otra transaction de manera paralela que inserta un registro nuevo en la tabla? para
         la segunda query de esta transaction vamos a leer un registro que no estaba antes, así que
         vamos a obtener un resultado inconsistente entre ambas consultas.
 
